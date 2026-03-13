@@ -9,13 +9,11 @@ class CalendarDocument {
 
   setMonth(month) {
     this.month = month;
-    this.printCalendarMonth();
     this.notifyChange("monthChanged", month);
   }
 
   setYear(year) {
     this.year = year;
-    this.printCalendarMonth();
     this.notifyChange("yearChanged", year);
   }
 
@@ -33,8 +31,8 @@ class CalendarDocument {
     
     // Get total days in month (setting day to 0 of the next month gives last day of current)
     const daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
-
-    
+    this.textout = ""; // Clear previous output before building new calendar
+     
     // 3. Build the Header
     this.println(`\n    ${monthName}   ${this.year}`);
     this.println(" Su  Mo  Tu  We  Th  Fr  Sa");

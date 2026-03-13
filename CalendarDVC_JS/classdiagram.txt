@@ -1,0 +1,42 @@
+classDiagram
+    class CalendarDocument {
+        +Array listeners
+        +Number year
+        +Number month
+        +String textout
+        +addListener(listener)
+        +notifyChange(event, data)
+        +setYear(year)
+        +setMonth(month)
+        +printCalendarMonth()
+        +flush()
+    }
+
+    class ConsoleView {
+        +HTMLElement history
+        +HTMLElement input
+        +Function onCommand
+        +String prompt
+        +setPrompt(newPrompt)
+        +println(text)
+        +flush()
+        -initEventListeners()
+        -focusAndMoveCursorToTheEnd()
+    }
+
+    class CalendarController {
+        +CalendarDocument doc
+        +ConsoleView view
+        +String stat
+        +handleCommand(command)
+        +documentChanged(event, data)
+        +updatePrompt()
+        -initWelcomeMessage()
+    }
+
+
+    %% Relationships
+    CalendarController "1" *-- "1" ConsoleView : Creates/Owns
+    CalendarController "1" o-- "1" CalendarDocument : References
+    CalendarDocument "1" -- "0..*" CalendarController : Notifies (Observer)
+    CalendarController ..> Status : Uses for State
