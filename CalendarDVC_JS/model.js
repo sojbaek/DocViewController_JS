@@ -34,7 +34,7 @@ class CalendarDocument {
     this.textout = ""; // Clear previous output before building new calendar
      
     // 3. Build the Header
-    this.println(`\n    ${monthName}   ${this.year}`);
+    this.println(`\n    ${monthName}   ${this.year}\n`);
     this.println(" Su  Mo  Tu  We  Th  Fr  Sa");
 
     // 4. Build the Calendar Grid

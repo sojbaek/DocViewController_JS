@@ -7,7 +7,7 @@ class ConsoleView {
         this.onCommand = onCommandCallback;
         this.prompt = ">";
         this.scrollBarAdjustment = 73;
-        this.textBuffer = "";
+        this.clear()
 
         this.initEventListeners();
     }
@@ -45,6 +45,16 @@ class ConsoleView {
         this.input.addEventListener('input', () => this.handlePaste());
     }
 
+    cls() {
+        this.textBuffer = "";
+        this.history.innerHTML = "";
+        this.setPrompt(this.prompt); // Reset prompt and focus  
+    }
+
+    clear() {
+        this.textBuffer = "";
+    }
+
     handlePaste() {
         if (this.input.childElementCount > 0) {
             const lines = this.input.innerText.replace(/\n$/, '').split('\n');
@@ -79,7 +89,7 @@ class ConsoleView {
         const line = document.createElement('DIV');
         line.textContent = this.textBuffer;
         this.history.appendChild(line);
-        this.textBuffer = "";
+        this.clear();
         this.scrollToEnd();
     }
 
