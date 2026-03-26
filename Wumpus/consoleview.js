@@ -87,11 +87,21 @@ class ConsoleView {
 
     flush() {
         if (!this.textBuffer) return;
-        const line = document.createElement('DIV');
-        line.textContent = this.textBuffer;
-        this.history.appendChild(line);
-        this.clear();
-        this.scrollToEnd();
+        const lines = this.textBuffer.trim().split('\n');
+        let index = 0;
+        const addLine = () => {
+            if (index < lines.length) {
+                const div = document.createElement('DIV');
+                div.textContent = lines[index];
+                this.history.appendChild(div);
+                index++;
+                setTimeout(addLine, 100);
+            } else {
+                this.clear();
+                this.scrollToEnd();
+            }
+        };
+        addLine();
     }
 
     scrollToEnd() {
