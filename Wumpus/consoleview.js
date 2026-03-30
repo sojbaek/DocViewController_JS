@@ -86,20 +86,20 @@ class ConsoleView {
     }
 
     flush() {
-        if (!this.textBuffer) return;
-        const lines = this.textBuffer.trim().split('\n');
+        if (!this.textBuffer || this.textBuffer === '') return;
+//        const lines = this.textBuffer.trim().split('\n');
+        const lines = this.textBuffer.split('\n');
+        this.clear();
         let index = 0;
         const addLine = () => {
             if (index < lines.length) {
                 const div = document.createElement('DIV');
-                div.textContent = lines[index];
+                div.textContent = lines[index] === '' ? '\n' : lines[index];
                 this.history.appendChild(div);
                 index++;
-                setTimeout(addLine, 100);
-            } else {
-                this.clear();
                 this.scrollToEnd();
-            }
+                setTimeout(addLine, 100);
+            } 
         };
         addLine();
     }

@@ -23,7 +23,7 @@ class WumpusGame {
     ];
     this.textout = "";
     this.arrows = 5;
-    this.println("\nWelcome to Hunt the Wumpus.");
+    this.println("\n\nWelcome to Hunt the Wumpus.");
     this.println("You are in a cave with 20 rooms. Your goal is to hunt the Wumpus");
     this.println("without falling into pits or being eaten by bats.   ");
     this.println("You have 5 arrows. You can move to adjacent rooms or ");
