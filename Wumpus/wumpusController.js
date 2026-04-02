@@ -38,8 +38,6 @@ class WumpusController {
 
     handleCommand(command) {
         // Echo the command back to history
-        
-        this.view.println(this.view.prompt + command);
         if (this.stat === Status.MOVE_OR_SHOOT) {
             var cmd = command.trim().toLowerCase();
             if (cmd === "m") {
