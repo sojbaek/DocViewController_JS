@@ -3,14 +3,11 @@ class ConsoleView {
         this.history = document.getElementById('history');
         this.input = document.getElementById('input');
         this.content = document.getElementById('terminal');
-        
         this.onCommand = onCommandCallback;
         this.prompt = ">";
         this.scrollBarAdjustment = 73;
-        this.clear();
-        this.numline = 0;
-        this.lineprinted = 0;
-        this.showPromptAfterLine = 100000;
+        this.depth = 0;
+        this.clear()
         this.initEventListeners();
     }
 
@@ -39,9 +36,10 @@ class ConsoleView {
             }
             if (e.key === 'Enter') {
                 e.preventDefault();
-                const command = this.input.textContent.substring(this.prompt.length);
-                this.println(this.prompt + command);
+                this.println(this.view.prompt + command); 
+                this.setPrompt("");
                 this.input.style.visibility = 'hidden';
+                const command = this.input.textContent.substring(this.prompt.length);
                 this.onCommand(command);
             }
         });
@@ -71,7 +69,6 @@ class ConsoleView {
     setPrompt(newPrompt) {
         this.prompt = newPrompt;
         this.input.textContent = this.prompt;
-        this.showPromptAfterLine = this.numline;
         this.focusAndMoveCursorToTheEnd();
     }
 
@@ -96,27 +93,22 @@ class ConsoleView {
         const lines = this.textBuffer.split('\n');
         this.clear();
         let index = 0;
-        this.numline += lines.length;
         const addLine = () => {
             if (index < lines.length) {
                 const div = document.createElement('DIV');
-                const lineText = lines[index] === '' ? '\n' : lines[index];
-                const lineNumber = String(this.lineprinted).padStart(3, '0');
-                div.textContent = `${lineNumber} ${lineText}`;
+                div.textContent = lines[index] === '' ? '\n' : lines[index];
                 this.history.appendChild(div);
                 index++;
                 this.scrollToEnd();
-                if (this.lineprinted >= this.showPromptAfterLine-1) {
-                    this.input.style.visibility = 'visible';
-                    this.focusAndMoveCursorToTheEnd();
-                } else {
-                    this.input.style.visibility = 'hidden';
-                }
-                this.lineprinted += 1;
-                setTimeout(addLine, 100);
+                this.depth++;
+                setTimeout(addLine, 1000);
             } 
         };
         addLine();
+        this.depth--;
+        if (this.depth === 0) {
+            this.input.style.visibility = 'visible';
+        }
     }
 
     scrollToEnd() {

@@ -1,3 +1,8 @@
+const GameStatus = Object.freeze({
+    IN_GAME: "IN_GAME",
+    GAME_OVER: "GAME_OVER"
+});
+
 class WumpusGame {
   constructor() {
     this.listeners = [];
@@ -23,11 +28,12 @@ class WumpusGame {
     ];
     this.textout = "";
     this.arrows = 5;
-    this.println("\n\nWelcome to Hunt the Wumpus.");
+    this.println("\nWelcome to Hunt the Wumpus.");
     this.println("You are in a cave with 20 rooms. Your goal is to hunt the Wumpus");
     this.println("without falling into pits or being eaten by bats.   ");
     this.println("You have 5 arrows. You can move to adjacent rooms or ");
     this.println("shoot an arrow into an adjacent room. Good luck!");
+    this.gamestatus = GameStatus.IN_GAME;
     this.describeRoom();
   }
 
@@ -68,10 +74,12 @@ class WumpusGame {
   }
 
   exitgame() {
+    this.gamestatus = GameStatus.GAME_OVER;
     this.notifyChange("exitGame");
   }
 
   describeRoom() {
+    if (this.gamestatus === GameStatus.GAME_OVER) return;
     this.println("\nYou are in room " + this.player);
     this.println("Tunnels lead to: " +this.rooms[this.player].join(", "));
     if (this.rooms[this.player].includes(this.wumpus))

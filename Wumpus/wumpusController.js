@@ -22,15 +22,10 @@ class WumpusController {
     }
    
     async documentChanged(event, data) {
-        if (event === "updated") {
-            this.view.print(this.game.textout);
-            this.game.clear();
-        } else if (event === "exitGame") {
-            this.view.setPrompt("### Game Over ###");
-            this.view.print(this.game.textout);
-            this.game.clear();
+        this.view.print(this.game.textout);
+        this.game.clear();
+        if (event === "exitGame") {
             this.view.println("Thanks for playing!");
-            await this.sleep(4000);
             this.stat = Status.GAME_OVER;
         }
         this.updatePrompt();
@@ -84,7 +79,7 @@ class WumpusController {
         } else if (this.stat === Status.SHOOT_ROOM) {            
             this.view.setPrompt("Enter room to shoot: ");
         } else if (this.stat === Status.GAME_OVER) {
-            this.view.setPrompt("Game Over. Press enter key to play again: ");
+            this.view.setPrompt("Press enter key to play again: ");
         }
     }
 }
